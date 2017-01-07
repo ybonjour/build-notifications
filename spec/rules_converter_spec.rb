@@ -10,8 +10,7 @@ class Rule
 end
 
 def convert(json)
-  parsed_json = JSON.parse(json)
-  return [Rule.new(parsed_json[0]["build_status"], parsed_json[0]["recipients"])]
+  JSON.parse(json).map { |rule_json| Rule.new(rule_json["build_status"], rule_json["recipients"]) }
 end
 
 describe "rules_converter" do
@@ -27,7 +26,7 @@ describe "rules_converter" do
     expect(rules[0].build_status).to be == 'PASSED'
   end
 
-  it 'parses single recipient' do
+  it 'parses recipients' do
     json = <<-eos
       [{
         "recipients": ["info@foo.com"]
@@ -39,15 +38,18 @@ describe "rules_converter" do
     expect(rules[0].recipients).to be == ["info@foo.com"]
   end
 
-  it 'parses multiple recipients' do
+  it 'parses multiple rules' do
     json = <<-eos
       [{
-        "recipients": ["info@foo.com", "info2@foo.com"]
+        "build_status": "PASSED"
+      }, {
+        "build_status": "FIXED"
       }]
     eos
 
     rules = convert(json)
 
-    expect(rules[0].recipients).to be == ["info@foo.com", "info2@foo.com"]
+    expect(rules[0].build_status).to be == "PASSED"
+    expect(rules[1].build_status).to be == "FIXED"
   end
 end

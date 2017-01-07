@@ -1,9 +1,16 @@
 #!/usr/bin/env ruby
 
-$:.push File.expand_path('../../lib', __FILE__)
+$:.push File.expand_path("../../lib", __FILE__)
 
 require "build-notifications/application"
+require "build-notifications/file_reader"
+require "build-notifications/rules_parser"
 
 BuildNotifications::Application.set(:port, 80)
 BuildNotifications::Application.set(:environment, :production)
+
+rules_json = BuildNotifications::FileReader.read_file(File.expand_path("../../rules.json", __FILE__))
+rules = BuildNotifications::RulesParser.parse(rules_json)
+BuildNotifications::Application.set(:rules, rules)
+
 BuildNotifications::Application.run!

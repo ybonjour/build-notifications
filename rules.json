@@ -1,0 +1,10 @@
+[
+  {
+    "build_status": "FAILED",
+    "recipients": ["yves.bonjour@gmail.com"]
+  },
+  {
+    "build_status": "FIXED",
+    "recipients": ["yves.bonjour@gmail.com"]
+  }
+]

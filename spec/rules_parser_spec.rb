@@ -1,43 +1,45 @@
 require 'build-notifications/rules_parser'
 require 'json'
 
-describe RulesParser do
-  it 'parses build status' do
-    json = <<-eos
-      [{
-        "build_status": "PASSED"
-      }]
-    eos
+module BuildNotifications
+  describe RulesParser do
+    it 'parses build status' do
+      json = <<-eos
+        [{
+          "build_status": "PASSED"
+        }]
+      eos
 
-    rules = RulesParser.parse(json)
+      rules = RulesParser.parse(json)
 
-    expect(rules[0].build_status).to be == 'PASSED'
-  end
+      expect(rules[0].build_status).to be == 'PASSED'
+    end
 
-  it 'parses recipients' do
-    json = <<-eos
-      [{
-        "recipients": ["info@foo.com"]
-      }]
-    eos
+    it 'parses recipients' do
+      json = <<-eos
+        [{
+          "recipients": ["info@foo.com"]
+        }]
+      eos
 
-    rules = RulesParser.parse(json)
+      rules = RulesParser.parse(json)
 
-    expect(rules[0].recipients).to be == ["info@foo.com"]
-  end
+      expect(rules[0].recipients).to be == ["info@foo.com"]
+    end
 
-  it 'parses multiple rules' do
-    json = <<-eos
-      [{
-        "build_status": "PASSED"
-      }, {
-        "build_status": "FIXED"
-      }]
-    eos
+    it 'parses multiple rules' do
+      json = <<-eos
+        [{
+          "build_status": "PASSED"
+        }, {
+          "build_status": "FIXED"
+        }]
+      eos
 
-    rules = RulesParser.parse(json)
+      rules = RulesParser.parse(json)
 
-    expect(rules[0].build_status).to be == "PASSED"
-    expect(rules[1].build_status).to be == "FIXED"
+      expect(rules[0].build_status).to be == "PASSED"
+      expect(rules[1].build_status).to be == "FIXED"
+    end
   end
 end

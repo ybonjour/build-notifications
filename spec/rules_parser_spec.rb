@@ -1,4 +1,4 @@
-require_relative 'spec_helper'
+require 'spec_helper'
 require 'build-notifications/rules_parser'
 require 'json'
 

@@ -30,7 +30,7 @@ describe "rules_converter" do
   it 'parses single recipient' do
     json = <<-eos
       [{
-        "recipients": ["yves.bonjour@gmail.com"]
+        "recipients": ["info@foo.com"]
       }]
     eos
 

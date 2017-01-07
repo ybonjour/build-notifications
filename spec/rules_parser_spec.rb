@@ -1,4 +1,5 @@
-require_relative '../lib/build-notifications/rules_parser'
+require_relative 'spec_helper'
+require 'build-notifications/rules_parser'
 require 'json'
 
 describe RulesParser do

@@ -1,4 +1,3 @@
-require 'spec_helper'
 require 'build-notifications/rules_parser'
 require 'json'
 

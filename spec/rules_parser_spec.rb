@@ -1,19 +1,22 @@
 require 'json'
 
-class Rule
-  def initialize(build_status, recipients)
-    @build_status = build_status
-    @recipients = recipients
+module RulesParser
+
+  class Rule
+    def initialize(build_status, recipients)
+      @build_status = build_status
+      @recipients = recipients
+    end
+
+    attr_reader :build_status, :recipients
   end
 
-  attr_reader :build_status, :recipients
+  def self.convert(json)
+    JSON.parse(json).map { |rule_json| Rule.new(rule_json["build_status"], rule_json["recipients"]) }
+  end
 end
 
-def convert(json)
-  JSON.parse(json).map { |rule_json| Rule.new(rule_json["build_status"], rule_json["recipients"]) }
-end
-
-describe "rules_converter" do
+describe RulesParser do
   it 'parses build status' do
     json = <<-eos
       [{
@@ -21,7 +24,7 @@ describe "rules_converter" do
       }]
     eos
 
-    rules = convert(json)
+    rules = RulesParser.convert(json)
 
     expect(rules[0].build_status).to be == 'PASSED'
   end
@@ -33,7 +36,7 @@ describe "rules_converter" do
       }]
     eos
 
-    rules = convert(json)
+    rules = RulesParser.convert(json)
 
     expect(rules[0].recipients).to be == ["info@foo.com"]
   end
@@ -47,7 +50,7 @@ describe "rules_converter" do
       }]
     eos
 
-    rules = convert(json)
+    rules = RulesParser.convert(json)
 
     expect(rules[0].build_status).to be == "PASSED"
     expect(rules[1].build_status).to be == "FIXED"

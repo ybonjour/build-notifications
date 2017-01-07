@@ -36,6 +36,18 @@ describe "rules_converter" do
 
     rules = convert(json)
 
-    expect(rules[0].recipients).to be == ["yves.bonjour@gmail.com"]
+    expect(rules[0].recipients).to be == ["info@foo.com"]
+  end
+
+  it 'parses multiple recipients' do
+    json = <<-eos
+      [{
+        "recipients": ["info@foo.com", "info2@foo.com"]
+      }]
+    eos
+
+    rules = convert(json)
+
+    expect(rules[0].recipients).to be == ["info@foo.com", "info2@foo.com"]
   end
 end

@@ -11,7 +11,7 @@ module RulesParser
     attr_reader :build_status, :recipients
   end
 
-  def self.convert(json)
+  def self.parse(json)
     JSON.parse(json).map { |rule_json| Rule.new(rule_json["build_status"], rule_json["recipients"]) }
   end
 end
@@ -24,7 +24,7 @@ describe RulesParser do
       }]
     eos
 
-    rules = RulesParser.convert(json)
+    rules = RulesParser.parse(json)
 
     expect(rules[0].build_status).to be == 'PASSED'
   end
@@ -36,7 +36,7 @@ describe RulesParser do
       }]
     eos
 
-    rules = RulesParser.convert(json)
+    rules = RulesParser.parse(json)
 
     expect(rules[0].recipients).to be == ["info@foo.com"]
   end
@@ -50,7 +50,7 @@ describe RulesParser do
       }]
     eos
 
-    rules = RulesParser.convert(json)
+    rules = RulesParser.parse(json)
 
     expect(rules[0].build_status).to be == "PASSED"
     expect(rules[1].build_status).to be == "FIXED"

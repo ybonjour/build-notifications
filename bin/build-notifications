@@ -1,0 +1,9 @@
+#!/usr/bin/env ruby
+
+$:.push File.expand_path('../../lib', __FILE__)
+
+require "build-notifications/application"
+
+BuildNotifications::Application.set(:port, 80)
+BuildNotifications::Application.set(:environment, :production)
+BuildNotifications::Application.run!

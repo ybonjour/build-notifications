@@ -21,6 +21,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "sinatra"
   spec.add_dependency "thin"
   spec.add_dependency "mercurial-ruby"
+  spec.add_dependency "mail"
 
   spec.add_development_dependency "rspec"
   spec.add_development_dependency "rack-test"
